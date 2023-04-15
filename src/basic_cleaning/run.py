@@ -35,6 +35,10 @@ def go(args):
     logger.info("Cleaning step 3: Convert the value of last_review to a datetime object.")
     df['last_review'] = pd.to_datetime(df['last_review'])
 
+    # Add Latitude/Longitude boundaries
+    idx = df['longitude'].between(-74.25, -73.50) & df['latitude'].between(40.5, 41.2)
+    df = df[idx].copy()
+
     # Save file as CSV and load W&B artifact
     logger.info(f"Store the cleaned sample in a local directory.")
     df.to_csv("clean_sample.csv", index=False)
